@@ -5,10 +5,30 @@ import firebase from 'firebase'
 import {firebaseconfig} from './firebase'
 
 class App extends Component {
+
  componentDidMount() {
-  
-   const configs = firebaseconfig()
+  const configs = firebaseconfig()
   firebase.initializeApp(configs);
+  this.loadAllProviders()
+  this.checkuser()
+}
+
+checkuser() {
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      // User is signed in.
+      console.log(user)
+    } else {
+      // No user is signed in.
+      console.log("No User is logged in")
+    }
+  });
+}
+
+addNewProvider() {
+  
+}
+loadAllProviders() {
   var db = firebase.firestore();
   var docRef = db.collection("providers").doc("mazen");
 
@@ -25,9 +45,6 @@ class App extends Component {
   }).catch(function(error) {
       console.log("Error getting document:", error);
   });
-
-
- 
 }
   
   
